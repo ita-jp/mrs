@@ -9,8 +9,9 @@ spring:
     username: mrsuser
     password: mysecretpassword
     sql-script-encoding: UTF-8
+    initialization-mode: always
 
 logging:
   level:
-    org.hibernate.SQL: DEBUG
+    org.hibernate.SQL: TRACE
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
