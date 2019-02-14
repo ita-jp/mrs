@@ -31,7 +31,7 @@ public class ReservationService {
 
 	public Reservation reserve(Reservation reservation) {
 		val reservableRoomId = reservation.getReservableRoom().getReservableRoomId();
-		val reservableRoom = reservableRoomRepository.findById(reservableRoomId);
+		val reservableRoom = reservableRoomRepository.findOneForUpdateByReservableRoomId(reservableRoomId);
 
 		if (!reservableRoom.isPresent()) {
 			throw new UnavailableReservationException("入力の日付・部屋の組み合わせは予約できません。");
