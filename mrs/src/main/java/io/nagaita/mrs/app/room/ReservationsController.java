@@ -60,12 +60,11 @@ public class ReservationsController {
 			return reserveForm(date, roomId, model);
 		}
 
-		val reservation = new Reservation() {{
-			setStartTime(form.getStartTime());
-			setEndTime(form.getEndTime());
-			setReservableRoom(new ReservableRoom(new ReservableRoomId(roomId, date)));
-			setUser(dummyUser());
-		}};
+		val reservation = new Reservation();
+		reservation.setStartTime(form.getStartTime());
+		reservation.setEndTime(form.getEndTime());
+		reservation.setReservableRoom(new ReservableRoom(new ReservableRoomId(roomId, date)));
+		reservation.setUser(dummyUser());
 
 		try {
 			reservationService.reserve(reservation);
@@ -94,11 +93,11 @@ public class ReservationsController {
 	}
 
 	private User dummyUser() {
-		return new User() {{
-			setUserId("taro-yamada");
-			setFirstName("太郎");
-			setLastName("山田");
-			setRoleName(RoleName.USER);
-		}};
+		val user = new User();
+		user.setUserId("taro-yamada");
+		user.setFirstName("太郎");
+		user.setLastName("山田");
+		user.setRoleName(RoleName.USER);
+		return user;
 	}
 }
