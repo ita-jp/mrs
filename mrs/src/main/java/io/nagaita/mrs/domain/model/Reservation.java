@@ -26,7 +26,7 @@ public class Reservation implements Serializable {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public boolean isOrverlap(Reservation other) {
+    public boolean isOverlap(Reservation other) {
         if (!Objects.equals(reservableRoom.getReservableRoomId(), other.getReservableRoom().getReservableRoomId())) {
             return false;
         }

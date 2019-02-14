@@ -39,7 +39,7 @@ public class ReservationService {
 
 		val isOverlap =
 				reservationRepository.findByReservableRoom_ReservableRoomIdOrderByStartTimeAsc(reservableRoomId)
-						.stream().anyMatch(x -> x.isOrverlap(reservation));
+						.stream().anyMatch(x -> x.isOverlap(reservation));
 
 		if (isOverlap) {
 			throw new AlreadyReservedException("入力の時間帯はすでに予約済みです。");
