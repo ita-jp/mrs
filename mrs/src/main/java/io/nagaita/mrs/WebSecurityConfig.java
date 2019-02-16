@@ -1,6 +1,8 @@
 package io.nagaita.mrs;
 
+import io.nagaita.mrs.domain.model.RoleName;
 import io.nagaita.mrs.domain.service.user.ReservationUserDetailsService;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,7 +11,15 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Configuration
 @EnableWebSecurity
@@ -18,6 +28,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private ReservationUserDetailsService userDetailsService;
+	@Autowired
+	private AuthenticationSuccessHandler authenticationSuccessHandler;
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -43,14 +55,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		//@formatter:off
 		http.authorizeRequests()
 				.antMatchers("/js/**", "/css/**").permitAll()
-				.antMatchers("/**").authenticated()
+				.antMatchers("/admin/**").hasRole(RoleName.ADMIN.name())
+				.anyRequest().authenticated()
 				.and()
 				.formLogin()
 				.loginPage("/loginForm")
 				.loginProcessingUrl("/login")
 				.usernameParameter("username")
 				.passwordParameter("password")
-				.defaultSuccessUrl("/rooms/", true)
+				.successHandler(authenticationSuccessHandler)
 				.failureUrl("/loginForm?error=true").permitAll();
 		//@formatter:on
 	}
@@ -59,4 +72,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 	}
+
+	@Bean
+	public AuthenticationSuccessHandler authenticationSuccessHander() {
+		return (request, response, authentication) -> {
+			val roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
+			if (roles.contains(RoleName.ADMIN.toSpringRoleName())) {
+				response.sendRedirect("/admin/");
+			} else {
+				response.sendRedirect("/");
+			}
+		};
+	}
+
 }

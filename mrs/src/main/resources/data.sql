@@ -36,5 +36,6 @@ INSERT INTO reservable_room (reserved_date, room_id) VALUES (CURRENT_DATE, 7);
 INSERT INTO reservable_room (reserved_date, room_id) VALUES (CURRENT_DATE + 1, 7);
 INSERT INTO reservable_room (reserved_date, room_id) VALUES (CURRENT_DATE - 1, 7);
 
+INSERT INTO usr(user_id, first_name, last_name, password, role_name) VALUES ('admin', 'ADMIN', 'admin', 'admin', 'ADMIN');
 INSERT INTO usr(user_id, first_name, last_name, password, role_name) VALUES ('taro-yamada', '太郎', '山田', 'test', 'USER');
 INSERT INTO usr(user_id, first_name, last_name, password, role_name) VALUES ('jiro-yamada', '次郎', '山田', 'test', 'USER');
