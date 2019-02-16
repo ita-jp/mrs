@@ -87,7 +87,7 @@ public class ReservationsController {
 						 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable("date") LocalDate date,
 						 @PathVariable("roomId") Integer roomId, Model model) {
 		try {
-			reservationService.cancel(reservationId, userDetails.getUser());
+			reservationService.findOne(reservationId).ifPresent(reservationService::cancel);
 		} catch (AccessDeniedException e) {
 			model.addAttribute("error", e.getMessage());
 			return reserveForm(date, roomId, model);

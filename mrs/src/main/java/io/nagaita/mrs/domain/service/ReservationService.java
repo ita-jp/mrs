@@ -11,11 +11,14 @@ import io.nagaita.mrs.domain.repository.ReservationRepository;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -51,11 +54,12 @@ public class ReservationService {
 		return reservation;
 	}
 
-	public void cancel(Integer reservationId, User requestUser) {
-		val reservation = reservationRepository.findById(reservationId);
-		if (RoleName.ADMIN != requestUser.getRoleName() && reservation.map(r -> r.getUser().getUserId()).map(id -> !Objects.equals(id, requestUser.getUserId())).orElse(false)) {
-			throw new AccessDeniedException("要求されたキャンセルは許可できません。");
-		}
-		reservationRepository.delete(reservation.get());
+	@PreAuthorize("hasRole('ADMIN') or #reservation.user.userId == principal.user.userId")
+	public void cancel(@P("reservation") Reservation reservation) {
+		reservationRepository.delete(reservation);
+	}
+
+	public Optional<Reservation> findOne(Integer reservationId) {
+		return reservationRepository.findById(reservationId);
 	}
 }
