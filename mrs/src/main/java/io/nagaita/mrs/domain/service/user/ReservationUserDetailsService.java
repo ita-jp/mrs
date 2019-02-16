@@ -17,7 +17,7 @@ public class ReservationUserDetailsService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		//@formatter:off
 		return userRepository.findById(username)
-				.map(ReservatioinDetails::new)
+				.map(ReservationDetails::new)
 				.orElseThrow(() -> new UsernameNotFoundException(username + " is not found"));
 		//@formatter:on
 	}

@@ -7,7 +7,7 @@ import io.nagaita.mrs.domain.model.ReservableRoomId;
 import io.nagaita.mrs.domain.model.Reservation;
 import io.nagaita.mrs.domain.service.ReservationService;
 import io.nagaita.mrs.domain.service.RoomService;
-import io.nagaita.mrs.domain.service.user.ReservatioinDetails;
+import io.nagaita.mrs.domain.service.user.ReservationDetails;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -58,7 +58,7 @@ public class ReservationsController {
 
 	@PostMapping
 	public String reserve(@Validated ReservationForm form, BindingResult bindingResult,
-						  @AuthenticationPrincipal ReservatioinDetails userDetails,
+						  @AuthenticationPrincipal ReservationDetails userDetails,
 						  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable("date") LocalDate date,
 						  @PathVariable("roomId") Integer roomId, Model model) {
 		if (bindingResult.hasErrors()) {
@@ -83,7 +83,7 @@ public class ReservationsController {
 
 	@PostMapping(params = "cancel")
 	public String cancel(@RequestParam("reservationId") Integer reservationId,
-						 @AuthenticationPrincipal ReservatioinDetails userDetails,
+						 @AuthenticationPrincipal ReservationDetails userDetails,
 						 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable("date") LocalDate date,
 						 @PathVariable("roomId") Integer roomId, Model model) {
 		try {
