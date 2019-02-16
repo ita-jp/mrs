@@ -2,12 +2,17 @@ package io.nagaita.mrs.app.room;
 
 import io.nagaita.mrs.domain.AlreadyReservedException;
 import io.nagaita.mrs.domain.UnavailableReservationException;
-import io.nagaita.mrs.domain.model.*;
+import io.nagaita.mrs.domain.model.ReservableRoom;
+import io.nagaita.mrs.domain.model.ReservableRoomId;
+import io.nagaita.mrs.domain.model.Reservation;
 import io.nagaita.mrs.domain.service.ReservationService;
 import io.nagaita.mrs.domain.service.RoomService;
+import io.nagaita.mrs.domain.service.user.ReservatioinDetails;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -47,13 +52,13 @@ public class ReservationsController {
 		model.addAttribute("room", roomService.findMeetingRoom(roomId).get());
 		model.addAttribute("reservations", reservations);
 		model.addAttribute("timeList", timeList);
-		model.addAttribute("user", dummyUser());
 
 		return "reservation/reserveForm";
 	}
 
 	@PostMapping
 	public String reserve(@Validated ReservationForm form, BindingResult bindingResult,
+						  @AuthenticationPrincipal ReservatioinDetails userDetails,
 						  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable("date") LocalDate date,
 						  @PathVariable("roomId") Integer roomId, Model model) {
 		if (bindingResult.hasErrors()) {
@@ -64,7 +69,7 @@ public class ReservationsController {
 		reservation.setStartTime(form.getStartTime());
 		reservation.setEndTime(form.getEndTime());
 		reservation.setReservableRoom(new ReservableRoom(new ReservableRoomId(roomId, date)));
-		reservation.setUser(dummyUser());
+		reservation.setUser(userDetails.getUser());
 
 		try {
 			reservationService.reserve(reservation);
@@ -78,26 +83,16 @@ public class ReservationsController {
 
 	@PostMapping(params = "cancel")
 	public String cancel(@RequestParam("reservationId") Integer reservationId,
+						 @AuthenticationPrincipal ReservatioinDetails userDetails,
 						 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable("date") LocalDate date,
 						 @PathVariable("roomId") Integer roomId, Model model) {
-		val user = dummyUser();
-
 		try {
-			reservationService.cancel(reservationId, user);
-		} catch (IllegalArgumentException e) {
+			reservationService.cancel(reservationId, userDetails.getUser());
+		} catch (AccessDeniedException e) {
 			model.addAttribute("error", e.getMessage());
 			return reserveForm(date, roomId, model);
 		}
 
 		return "redirect:/reservations/{date}/{roomId}";
-	}
-
-	private User dummyUser() {
-		val user = new User();
-		user.setUserId("taro-yamada");
-		user.setFirstName("太郎");
-		user.setLastName("山田");
-		user.setRoleName(RoleName.USER);
-		return user;
 	}
 }

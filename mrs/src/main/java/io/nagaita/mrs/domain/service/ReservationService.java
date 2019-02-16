@@ -10,6 +10,7 @@ import io.nagaita.mrs.domain.repository.ReservableRoomRepository;
 import io.nagaita.mrs.domain.repository.ReservationRepository;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,7 +54,7 @@ public class ReservationService {
 	public void cancel(Integer reservationId, User requestUser) {
 		val reservation = reservationRepository.findById(reservationId);
 		if (RoleName.ADMIN != requestUser.getRoleName() && reservation.map(r -> r.getUser().getUserId()).map(id -> !Objects.equals(id, requestUser.getUserId())).orElse(false)) {
-			throw new IllegalStateException("要求されたキャンセルは許可できません。");
+			throw new AccessDeniedException("要求されたキャンセルは許可できません。");
 		}
 		reservationRepository.delete(reservation.get());
 	}

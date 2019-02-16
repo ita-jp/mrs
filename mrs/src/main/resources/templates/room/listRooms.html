@@ -1,10 +1,16 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8"/>
     <title th:text="|${#temporals.format(date, 'yyy/M/d')}の会議室|">2016/5/20の会議室</title>
 </head>
 <body>
+<div sec:authorize="isAuthenticated()">
+    Authenticated user roles:
+    Logged user: <span sec:authentication="name"></span> |
+    Roles: <span sec:authentication="principal.authorities"></span>
+</div>
 <h3>会議室</h3>
 <a th:href="@{'/rooms/' + ${date.minusDays(1)}}">&lt; 前日</a>
 <span th:text="|${#temporals.format(date, 'yyy/M/d')}の会議室|">2016/5/20の会議室</span>
