@@ -6,27 +6,7 @@
 </head>
 <body>
 <ul>
-
-<table>
-  <thead>
-    <tr>
-      <th>id</th>
-      <th>first name</th>
-      <th>last name</th>
-      <th>role name</th>
-    </tr>
-  </thead>
-  <tbody>
-  <#list userList as user>
-    <tr>
-      <td>${user.userId}</td>
-      <td>${user.firstName}</td>
-      <td>${user.lastName}</td>
-      <td>${user.roleName}</td>
-    </tr>
-  </#list>
-  </tbody>
-</table>
-
+  <li><a href="/admin/user/">User List</a></li>
+</ul>
 </body>
 </html>
