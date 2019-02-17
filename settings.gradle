@@ -1,2 +1,3 @@
 rootProject.name = 'mrs'
 include 'mrs'
+include 'mrs-db'
