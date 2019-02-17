@@ -74,4 +74,10 @@ public class AdminRoomController {
         meetingRoomService.update(room);
         return show(id, model);
     }
+
+    @DeleteMapping("{id}")
+    public String delete(@PathVariable("id") Integer id, Model model) {
+        meetingRoomService.delete(id);
+        return list(model);
+    }
 }

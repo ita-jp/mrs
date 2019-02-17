@@ -29,4 +29,8 @@ public class MeetingRoomService {
     public MeetingRoom update(MeetingRoom room) {
         return meetingRoomRepository.save(room);
     }
+
+    public void delete(Integer id) {
+        meetingRoomRepository.deleteById(id);
+    }
 }
