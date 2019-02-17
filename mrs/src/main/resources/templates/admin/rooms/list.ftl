@@ -8,6 +8,7 @@
 <body>
 
 <div>
+  <a href="/admin/">Back<a>
   <a href="/admin/rooms/new">New</a>
 </div>
 
@@ -22,7 +23,7 @@
   <#list roomList as room>
     <tr>
       <td>${room.roomId}</td>
-      <td>${room.roomName}</td>
+      <td><a href="/admin/rooms/${room.roomId}">${room.roomName}</a></td>
     </tr>
   </#list>
   </tbody>

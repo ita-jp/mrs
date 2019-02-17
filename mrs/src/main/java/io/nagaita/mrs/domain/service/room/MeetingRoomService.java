@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MeetingRoomService {
@@ -19,5 +20,13 @@ public class MeetingRoomService {
 
     public List<MeetingRoom> findAll() {
         return meetingRoomRepository.findAll();
+    }
+
+    public Optional<MeetingRoom> findOne(Integer id) {
+        return meetingRoomRepository.findById(id);
+    }
+
+    public MeetingRoom update(MeetingRoom room) {
+        return meetingRoomRepository.save(room);
     }
 }

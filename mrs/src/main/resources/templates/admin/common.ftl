@@ -2,10 +2,10 @@
   <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 </#macro>
 
-<#macro myTextInput id placeholder>
+<#macro myTextInput id placeholder default="">
   <div>
     <div class="mdc-text-field text-field mdc-ripple-upgraded" data-mdc-auto-init="MDCTextField">
-      <input type="text" id="${id}" name=${id} class="mdc-text-field__input">
+      <input type="text" id="${id}" name=${id} class="mdc-text-field__input" value="${default}">
       <label class="mdc-floating-label" for="${id}">${placeholder}</label>
       <div class="mdc-line-ripple"></div>
     </div>
