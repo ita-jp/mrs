@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.time.LocalDate;
 
 @Controller
-@RequestMapping("rooms")
+@RequestMapping("/rooms/")
 public class RoomController {
 
 	@Autowired
 	private RoomService roomService;
 
-	@GetMapping("/")
+	@GetMapping
 	public String listRooms(Model model) {
 		val today = LocalDate.now();
 		model.addAttribute("date", today);
@@ -30,6 +30,6 @@ public class RoomController {
 	public String listRooms(@DateTimeFormat(iso=DateTimeFormat.ISO.DATE) @PathVariable("date") LocalDate date, Model model) {
 		val rooms = roomService.findReservableRooms(date);
 		model.addAttribute("rooms", rooms);
-		return "room/listRooms";
+		return "rooms/listRooms";
 	}
 }
