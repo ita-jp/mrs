@@ -10,6 +10,10 @@
 </head>
 <body class="mdc-typography">
 
+<div>
+  <a href="/admin/rooms/${room.roomId}">Back</a>
+</div>
+
 <form action="/admin/rooms/${room.roomId}" method="POST">
   <input type="hidden" name="_method" value="PUT">
   <@common.myCsrf />
