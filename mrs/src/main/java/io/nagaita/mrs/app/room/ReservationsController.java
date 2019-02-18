@@ -17,7 +17,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -58,9 +63,9 @@ public class ReservationsController {
 
 	@PostMapping
 	public String reserve(@Validated ReservationForm form, BindingResult bindingResult,
-						  @AuthenticationPrincipal ReservationDetails userDetails,
-						  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable("date") LocalDate date,
-						  @PathVariable("roomId") Integer roomId, Model model) {
+			@AuthenticationPrincipal ReservationDetails userDetails,
+			@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable("date") LocalDate date,
+			@PathVariable("roomId") Integer roomId, Model model) {
 		if (bindingResult.hasErrors()) {
 			return reserveForm(date, roomId, model);
 		}
@@ -83,9 +88,9 @@ public class ReservationsController {
 
 	@PostMapping(params = "cancel")
 	public String cancel(@RequestParam("reservationId") Integer reservationId,
-						 @AuthenticationPrincipal ReservationDetails userDetails,
-						 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable("date") LocalDate date,
-						 @PathVariable("roomId") Integer roomId, Model model) {
+			@AuthenticationPrincipal ReservationDetails userDetails,
+			@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable("date") LocalDate date,
+			@PathVariable("roomId") Integer roomId, Model model) {
 		try {
 			reservationService.findOne(reservationId).ifPresent(reservationService::cancel);
 		} catch (AccessDeniedException e) {

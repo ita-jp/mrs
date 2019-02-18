@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class AdminMeetingRoomForm {
 
-    private String roomName;
+	private String roomName;
 
 }

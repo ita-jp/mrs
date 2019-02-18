@@ -12,9 +12,9 @@ import java.io.Serializable;
 @Data
 public class MeetingRoom implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer roomId;
-    private String roomName;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer roomId;
+	private String roomName;
 
 }

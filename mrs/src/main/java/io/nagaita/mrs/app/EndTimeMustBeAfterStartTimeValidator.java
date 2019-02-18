@@ -6,7 +6,8 @@ import lombok.val;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class EndTimeMustBeAfterStartTimeValidator implements ConstraintValidator<EndTimeMustBeAfterStartTime, ReservationForm> {
+public class EndTimeMustBeAfterStartTimeValidator
+		implements ConstraintValidator<EndTimeMustBeAfterStartTime, ReservationForm> {
 
 	private String message;
 

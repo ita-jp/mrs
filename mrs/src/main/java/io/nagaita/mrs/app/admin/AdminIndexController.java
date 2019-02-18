@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("admin")
 public class AdminIndexController {
 
-    @Autowired
-    private UserService userService;
+	@Autowired
+	private UserService userService;
 
-    @GetMapping
-    public String index(@AuthenticationPrincipal ReservationDetails userDetail, Model model) {
-        model.addAttribute("currentUser", userDetail.getUser());
-        model.addAttribute("userList", userService.listAll());
-        return "admin/index";
-    }
+	@GetMapping
+	public String index(@AuthenticationPrincipal ReservationDetails userDetail, Model model) {
+		model.addAttribute("currentUser", userDetail.getUser());
+		model.addAttribute("userList", userService.listAll());
+		return "admin/index";
+	}
 }

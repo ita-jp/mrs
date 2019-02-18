@@ -27,7 +27,8 @@ public class RoomController {
 	}
 
 	@GetMapping("{date}")
-	public String listRooms(@DateTimeFormat(iso=DateTimeFormat.ISO.DATE) @PathVariable("date") LocalDate date, Model model) {
+	public String listRooms(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable("date") LocalDate date,
+			Model model) {
 		val rooms = roomService.findReservableRooms(date);
 		model.addAttribute("rooms", rooms);
 		return "rooms/listRooms";

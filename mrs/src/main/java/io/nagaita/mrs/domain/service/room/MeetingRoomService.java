@@ -11,26 +11,26 @@ import java.util.Optional;
 @Service
 public class MeetingRoomService {
 
-    @Autowired
-    private MeetingRoomRepository meetingRoomRepository;
+	@Autowired
+	private MeetingRoomRepository meetingRoomRepository;
 
-    public MeetingRoom create(MeetingRoom room) {
-        return meetingRoomRepository.save(room);
-    }
+	public MeetingRoom create(MeetingRoom room) {
+		return meetingRoomRepository.save(room);
+	}
 
-    public List<MeetingRoom> findAll() {
-        return meetingRoomRepository.findAll();
-    }
+	public List<MeetingRoom> findAll() {
+		return meetingRoomRepository.findAll();
+	}
 
-    public Optional<MeetingRoom> findOne(Integer id) {
-        return meetingRoomRepository.findById(id);
-    }
+	public Optional<MeetingRoom> findOne(Integer id) {
+		return meetingRoomRepository.findById(id);
+	}
 
-    public MeetingRoom update(MeetingRoom room) {
-        return meetingRoomRepository.save(room);
-    }
+	public MeetingRoom update(MeetingRoom room) {
+		return meetingRoomRepository.save(room);
+	}
 
-    public void delete(Integer id) {
-        meetingRoomRepository.deleteById(id);
-    }
+	public void delete(Integer id) {
+		meetingRoomRepository.deleteById(id);
+	}
 }

@@ -15,8 +15,8 @@ import java.time.LocalDate;
 @Data
 public class ReservableRoomId implements Serializable {
 
-    private Integer roomId;
-    @Column(columnDefinition = "DATE")
-    private LocalDate reservedDate;
+	private Integer roomId;
+	@Column(columnDefinition = "DATE")
+	private LocalDate reservedDate;
 
 }
